@@ -1,32 +1,33 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-export default ChildComponent => {
-  class ComposedComponent extends Component {
-    // Our component just got rendered
-    componentDidMount() {
-      this.shouldNavigateAway();
-    }
+export default (ChildComponent) => {
+   class ComposedComponent extends Component {
 
-    // Our component just got updated
-    componentDidUpdate() {
-      this.shouldNavigateAway();
-    }
+        // Component just got rendered
+         componentDidMount() {
+            this.shouldNavigateAway();
+         }
+            
+         componentDidUpdate() {
+            this.shouldNavigateAway();
+         }
 
-    shouldNavigateAway() {
-      if (!this.props.auth) {
-        this.props.history.push('/');
+         shouldNavigateAway() {
+            if(!this.props.auth) {
+               this.props.history.push('/');       
+            }
+         }
+
+      render() {
+         return <ChildComponent {...this.props} />;
       }
-    }
+   }
 
-    render() {
-      return <ChildComponent {...this.props} />;
-    }
-  }
+   function mapStateToProps(state) {
+      return { auth: state.auth }
+   }
 
-  function mapStateToProps(state) {
-    return { auth: state.auth };
-  }
+   return connect(mapStateToProps)(ComposedComponent);
 
-  return connect(mapStateToProps)(ComposedComponent);
 };

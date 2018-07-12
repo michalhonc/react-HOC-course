@@ -7,17 +7,14 @@ import * as actions from 'actions';
 
 class App extends Component {
   renderButton() {
-    if (this.props.auth) {
-      return (
-        <button onClick={() => this.props.changeAuth(false)}>Sign Out</button>
-      );
-    } else {
-      return (
-        <button onClick={() => this.props.changeAuth(true)}>Sign In</button>
-      );
-    }
+    return (
+        <button 
+          onClick={() => this.props.changeAuth(!this.props.auth)}>
+          Sign {this.props.auth ? 'out' : 'in'}
+        </button>
+    );
   }
-
+  
   renderHeader() {
     return (
       <ul>
@@ -25,13 +22,15 @@ class App extends Component {
           <Link to="/">Home</Link>
         </li>
         <li>
-          <Link to="/post">Post A Comment</Link>
+          <Link to="/post">Post a comment</Link>
         </li>
-        <li>{this.renderButton()}</li>
+        <li>
+          {this.renderButton()}  
+        </li>
       </ul>
     );
   }
-
+  
   render() {
     return (
       <div>
@@ -39,7 +38,7 @@ class App extends Component {
         <Route path="/post" component={CommentBox} />
         <Route path="/" exact component={CommentList} />
       </div>
-    );
+    )
   }
 }
 
@@ -47,4 +46,4 @@ function mapStateToProps(state) {
   return { auth: state.auth };
 }
 
-export default connect(mapStateToProps, actions)(App);
+export default connect(mapStateToProps, actions)(App)
